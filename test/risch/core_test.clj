@@ -2,6 +2,11 @@
   (:require [clojure.test :refer :all]
             [risch.core :refer :all]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(deftest simple-add
+  (testing "Sanity check: simple addition parsed correctly."
+    (is (= (parse-arithmetic "1+1")
+           [:S [:num "1"] [:op "+"] [:num "1"]]))))
+
+(deftest bad-expr
+  (testing "Sanity check: invalid expressions fail to parse."
+    (is (= false (vector? (parse-arithmetic "a+b"))))))
