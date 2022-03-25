@@ -3,10 +3,13 @@
 
 (def parse
   (insta/parser "
-expr =  num | var | num expr | expr op expr | expr '^' var | expr '^' num | expr '^' '(' expr ')' | '(' expr ')'
+expr =  num | var | expr comm-op expr | expr op '(' expr ')' | '(' expr ')' mean-op term | term mean-op term |  '(' expr ')'
+term = num | var | '(' expr ')' | num var | var var | num '(' expr ')' | var '(' expr ')' | '(' expr ')' var
 var = #'[A-Za-zΑ-Ωα-ω]' | #'[A-Za-zΑ-Ωα-ω]_[0-9A-Za-zΑ-Ωα-ω]'
 num = #'[0-9]+'
-op = ('-'|'+'|'/'|'*')
+op = comm-op | mean-op
+mean-op = ('/'|'^')
+comm-op = ('-'|'+'|'*')
     "))
 
 (defn integrate [parsed wrt]

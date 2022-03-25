@@ -16,21 +16,22 @@
 (risch/parse "1a")
 
 (str [:expr [:expr [:num "1"]] [:expr [:var "a"]]])
-{: 
+
+(defn my-next [thing]
+  (if (string? thing)
+    
+    (next thing)))
 
 (defn show-tree [parsed] 
-  (rhizome/view-tree next rest parsed
+  (rhizome/view-tree my-next rest parsed
                      :node->descriptor
                      (fn [expr] {:label (let [n (first expr)]
                                           (cond
                                             (string? n) n
-                                            (= :expr n) "expr"
-                                            (= :op n) "op"
-                                            (= :num n) "num"
-                                            (= :var n) "var"
+                                            (keyword? n) (name n)
                                             (number? n) n
                                             :else (str n)
                                             ))})))
 
- (show-tree (risch/parse "1x^2+1"))
+ (show-tree (risch/parse "a_2x^2+bx^3"))
    
